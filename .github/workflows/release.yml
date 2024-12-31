@@ -19,14 +19,21 @@ jobs:
           node-version: 20
           registry-url: https://npm.pkg.github.com/
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.9
+
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Bump version
         id: version
         run: npx changeset version
 
       - name: Commit and Tag
+        env:
+          HUSKY: 0
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -37,9 +44,9 @@ jobs:
           git push origin main --tags
 
       - name: Build package
-        run: npm run build
+        run: pnpm build
 
       - name: Publish to GitHub Packages
-        run: npm publish
+        run: pnpm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
