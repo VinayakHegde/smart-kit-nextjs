@@ -9,7 +9,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc && vite build",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint .",
     "format": "prettier --write --ignore-unknown .",
     "prepare": "husky",
