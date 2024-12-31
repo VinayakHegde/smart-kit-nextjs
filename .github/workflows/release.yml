@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'src/**'
 
 jobs:
   release:
@@ -32,21 +34,29 @@ jobs:
         run: npx changeset version
 
       - name: Commit and Tag
+        id: commit_and_tag
         env:
           HUSKY: 0
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          VERSION=$(node -p "require('./package.json').version")
-          git add .
-          git commit -m "chore: release version $VERSION [skip ci]"
-          git tag v$VERSION
-          git push origin main --tags
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            VERSION=$(node -p "require('./package.json').version")
+            git add .
+            git commit -m "chore: release version $VERSION [skip ci]"
+            git tag v$VERSION
+            git push origin main --tags
+            echo "changes=true" >> $GITHUB_ENV
+          else
+            echo "No changes to commit"
+            echo "changes=false" >> $GITHUB_ENV
 
       - name: Build package
+        if: env.changes == 'true'
         run: pnpm build
 
       - name: Publish to GitHub Packages
+        if: env.changes == 'true'
         run: pnpm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
