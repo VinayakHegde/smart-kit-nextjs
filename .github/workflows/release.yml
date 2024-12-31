@@ -50,7 +50,7 @@ jobs:
           else
             echo "No changes to commit"
             echo "changes=false" >> $GITHUB_ENV
-
+          fi
       - name: Build package
         if: env.changes == 'true'
         run: pnpm build
