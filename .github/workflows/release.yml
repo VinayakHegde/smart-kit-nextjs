@@ -14,6 +14,7 @@ env:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions: write-all
 
     steps:
       - name: Checkout repository
@@ -53,6 +54,7 @@ jobs:
           commit: 'chore: update versions'
           title: 'chore: update versions'
           publish: pnpm publish -r
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
