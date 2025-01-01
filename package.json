@@ -2,6 +2,10 @@
   "name": "@vinayakhegde/smart-kit-nextjs",
   "version": "1.0.0",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VinayakHegde/smart-kit-nextjs.git"
+  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
