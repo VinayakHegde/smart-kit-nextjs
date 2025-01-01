@@ -7,6 +7,10 @@ on:
     paths:
       - 'src/**'
 
+env:
+  CI: true
+  PNPM_CACHE_FOLDER: .pnpm-store
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -26,12 +30,21 @@ jobs:
         with:
           version: 9.9
 
+      - name: setup pnpm config
+        run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+
       - name: Install dependencies
         run: pnpm install
 
-      - name: Bump version
-        id: version
-        run: npx changeset version
+      - name: create versions
+        uses: changesets/action@v1
+        with:
+          version: pnpm ci:version
+          commit: 'chore: update versions'
+          title: 'chore: update versions'
+          publish: pnpm publish -r
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit and Tag
         id: commit_and_tag
@@ -46,17 +59,6 @@ jobs:
             git commit -m "chore: release version $VERSION [skip ci]"
             git tag v$VERSION
             git push origin main --tags
-            echo "changes=true" >> $GITHUB_ENV
           else
             echo "No changes to commit"
-            echo "changes=false" >> $GITHUB_ENV
           fi
-      - name: Build package
-        if: env.changes == 'true'
-        run: pnpm build
-
-      - name: Publish to GitHub Packages
-        if: env.changes == 'true'
-        run: pnpm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
