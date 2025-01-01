@@ -11,6 +11,18 @@
   },
   "main": "index.js",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs.js",
+      "import": "./dist/index.es.js"
+    },
+    "./cache": {
+      "types": "./dist/cache/index.d.ts",
+      "require": "./dist/cache/index.cjs.js",
+      "import": "./dist/cache/index.es.js"
+    }
+  },
   "scripts": {
     "build": "tsc && vite build",
     "test": "jest --passWithNoTests",
