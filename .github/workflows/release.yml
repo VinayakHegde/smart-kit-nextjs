@@ -1,4 +1,4 @@
-name: Automated Release to GitHub Packages
+name: Release Packages
 
 on:
   push:
@@ -20,33 +20,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Set up node and npmrc
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           registry-url: https://npm.pkg.github.com/
-          scope: '@VinayakHegde'
+          scope: '@vinayakhegde'
+          always-auth: true
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 9.9
-
-      - name: Setup pnpm config
-        run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+          store-path: ${{ env.PNPM_CACHE_FOLDER }}
+          cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm Install --frozen-lockfile
 
-      # - name: Create .npmrc
-      #   run: |
-      #     if [ ! -f .npmrc ]; then
-      #       echo .npmrc missing. Creating one now. Please review the following link for more information https://docs.gitlab.com/ee/user/packages/npm_registry/index.html#authenticating-with-an-oauth-token;
-      #       echo " @vinayakhegde:registry=https://npm.pkg.github.com/" > .npmrc
-      #       echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
-      #       echo "auto-install-peers=true" >> .npmrc
-      #       echo "node-linker=hoisted" >> .npmrc
-      #       cat .npmrc
-      #     fi
       - name: Create versions
         uses: changesets/action@v1
         with:
@@ -54,7 +45,6 @@ jobs:
           commit: 'chore: update versions'
           title: 'chore: update versions'
           publish: pnpm publish -r
-
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
