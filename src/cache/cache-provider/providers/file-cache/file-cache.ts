@@ -16,7 +16,8 @@ export class FileCache implements Provider {
 
     const sanitizedPath = path
       .normalize(cacheDir)
-      .replace(/^(\.\.(\/|\\|$))+/, '');
+      .replace(/^(\.\.(\/|\\|$))+/, '')
+      .replace(/^([a-zA-Z]:)?[\/\\]/, '');
     this.cacheDir = `./.file-cache-${sanitizedPath}`;
   }
 
@@ -25,6 +26,12 @@ export class FileCache implements Provider {
   }
 
   async set(key: string, value: string): Promise<void> {
+    if (!key || typeof key !== 'string') {
+      throw new Error('Cache key must be a non-empty string');
+    }
+    if (!/^[\w-]+$/.test(key)) {
+      throw new Error('Cache key contains invalid characters');
+    }
     try {
       const filePath = await this.getFilePath(key);
       await fs.mkdir(this.cacheDir, { recursive: true });
