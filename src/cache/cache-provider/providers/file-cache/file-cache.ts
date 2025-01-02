@@ -10,7 +10,14 @@ export class FileCache implements Provider {
       console.log('Relative path is taken care of by the cache provider');
     }
 
-    this.cacheDir = `./.file-cache-${cacheDir.replace('../', '').replace('./', '')}`;
+    if (!cacheDir || typeof cacheDir !== 'string') {
+      throw new Error('Cache directory path must be a non-empty string');
+    }
+
+    const sanitizedPath = path
+      .normalize(cacheDir)
+      .replace(/^(\.\.(\/|\\|$))+/, '');
+    this.cacheDir = `./.file-cache-${sanitizedPath}`;
   }
 
   private async getFilePath(key: string): Promise<string> {
@@ -18,9 +25,14 @@ export class FileCache implements Provider {
   }
 
   async set(key: string, value: string): Promise<void> {
-    const filePath = await this.getFilePath(key);
-    await fs.mkdir(this.cacheDir, { recursive: true });
-    await fs.writeFile(filePath, value, 'utf-8');
+    try {
+      const filePath = await this.getFilePath(key);
+      await fs.mkdir(this.cacheDir, { recursive: true });
+      await fs.writeFile(filePath, value, 'utf-8');
+    } catch (error) {
+      console.error('Failed to write to cache file:', error);
+      throw new Error('Cache write operation failed');
+    }
   }
 
   async get(key: string): Promise<string | null> {
