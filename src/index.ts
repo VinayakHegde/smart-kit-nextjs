@@ -1,1 +1,1 @@
-export const dummy = 0;
+export * from '@/cache';
