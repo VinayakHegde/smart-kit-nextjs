@@ -24,16 +24,21 @@ export const cache: ISmartKit.Cache = {
     cacheKey: string[],
     options: ISmartKit.CacheOptions,
   ): Promise<T> => {
-    if (!options.validFor || options.validFor === 0) {
+    if (!options.validFor || options.validFor < 1 || !cacheKey?.length) {
       return await func();
     }
 
     const query = await unstable_cache(
       async () => {
-        log(
-          `Result of '${cacheKey.join()}' query will be cached for ${options.validFor} seconds.`,
-        );
-        return await func();
+        try {
+          log(
+            `Result of '${cacheKey.join()}' query will be cached for ${options.validFor} seconds.`,
+          );
+          return await func();
+        } catch (error) {
+          log(`Error caching result for '${cacheKey.join()}': ${error}`);
+          throw error;
+        }
       },
       cacheKey,
       {
@@ -47,7 +52,13 @@ export const cache: ISmartKit.Cache = {
     return result;
   },
   revalidateByTag: (tags: string[]) => {
+    if (!tags?.length) {
+      throw new Error('Tags array cannot be empty');
+    }
     tags.forEach((tag) => {
+      if (typeof tag !== 'string' || !tag) {
+        throw new Error('Invalid tag value');
+      }
       log(`Revalidating tag: ${tag}`);
       revalidateTag(tag);
     });
