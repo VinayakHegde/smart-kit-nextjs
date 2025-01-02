@@ -50,7 +50,7 @@ declare namespace ICache {
   type CacheValue = any;
   type CacheKey = string;
   namespace IMemoryCache {
-    type ValueOption = {
+    export type ValueOption = {
       forceString?: boolean;
       useClone?: boolean;
       maxLength?: {
@@ -61,7 +61,7 @@ declare namespace ICache {
     };
 
     type Option = {
-      valueOptions?: ValueOptions;
+      valueOptions?: ValueOption;
       checkInterval?: number;
       retainOnExpire?: boolean;
       maxKeys?: number;

@@ -192,8 +192,12 @@ export class MemoryCache extends EventEmitter implements Provider {
     asClone = true,
   ): Promise<ICache.CacheValue> {
     if (asClone) {
-      const { default: clone } = await import('clone');
-      return clone(value.v);
+      try {
+        const { default: clone } = await import('clone');
+        return clone(value.v);
+      } catch (error) {
+        console.error('Failed to load clone package:', error);
+      }
     }
     return value.v;
   }
