@@ -12,15 +12,20 @@
   "main": "index.js",
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs.js",
-      "import": "./dist/index.es.js"
+    "./api-cache": {
+      "types": "./dist/cache/api-cache/index.d.ts",
+      "require": "./dist/cache/api-cache/index.cjs.js",
+      "import": "./dist/cache/api-cache/index.es.js"
     },
-    "./cache": {
-      "types": "./dist/cache/index.d.ts",
-      "require": "./dist/cache/index.cjs.js",
-      "import": "./dist/cache/index.es.js"
+    "./memory-cache": {
+      "types": "./dist/cache/cache-provider/providers/memory-cache/index.d.ts",
+      "require": "./dist/cache/cache-provider/providers/memory-cache/index.cjs.js",
+      "import": "./dist/cache/cache-provider/providers/memory-cache/index.es.js"
+    },
+    "./node/cache-provider": {
+      "types": "./dist/cache/cache-provider/index.d.ts",
+      "require": "./dist/cache/cache-provider/index.cjs.js",
+      "import": "./dist/cache/cache-provider/index.es.js"
     }
   },
   "scripts": {
@@ -38,6 +43,7 @@
     "@changesets/cli": "^2.27.11",
     "@commitlint/config-conventional": "^19.6.0",
     "@commitlint/types": "^19.5.0",
+    "@types/clone": "^2.1.4",
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
     "@vitest/coverage-c8": "^0.33.0",
@@ -57,5 +63,8 @@
   },
   "peerDependencies": {
     "next": "^15.1.3"
+  },
+  "dependencies": {
+    "clone": "^2.1.2"
   }
 }

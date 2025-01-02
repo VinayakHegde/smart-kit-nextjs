@@ -49,4 +49,39 @@ declare namespace ICache {
 
   type CacheValue = any;
   type CacheKey = string;
+  namespace IMemoryCache {
+    type ValueOption = {
+      forceString?: boolean;
+      useClone?: boolean;
+      maxLength?: {
+        array?: number;
+        object?: number;
+        buffer?: number;
+      };
+    };
+
+    type Option = {
+      valueOptions?: ValueOptions;
+      checkInterval?: number;
+      retainOnExpire?: boolean;
+      maxKeys?: number;
+    };
+
+    type Stats = {
+      hits: number;
+      misses: number;
+      keys: number;
+      ksize: number;
+      vsize: number;
+    };
+
+    type CacheErrorData = {
+      type: string;
+    };
+
+    type CacheData = {
+      t: number;
+      v: CacheValue;
+    };
+  }
 }
