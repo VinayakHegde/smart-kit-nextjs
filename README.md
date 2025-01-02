@@ -27,7 +27,7 @@ import { CacheProvider } from '@vinayakhegde/smart-kit-nextjs/node/cache-provide
 
 // FileCache
 const cacheProvider = CacheProvider.create({
-  cacheDir: './cache',
+  cacheDir: 'cache',
 });
 
 // MemoryCache

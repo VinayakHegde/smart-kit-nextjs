@@ -18,11 +18,11 @@ export type CacheConfig =
  * @throws Invalid cache configuration
  * @example
  * ```ts
- * import { CacheProvider } from '@vinayakhegde/smart-kit-nextjs/cache-provider';
+ * import { CacheProvider } from '@vinayakhegde/smart-kit-nextjs/node/cache-provider';
  *
  * // File cache
  * const cache = CacheProvider.create({
- *   cacheDir: './.cache',
+ *   cacheDir: 'cache',
  * });
  *
  * // Memory cache
