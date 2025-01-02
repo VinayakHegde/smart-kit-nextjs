@@ -44,3 +44,28 @@ cashProvider.clear();
 ```
 
 Note: If client side caching is required, use `MemoryCache` instead.
+
+- **security-headres**: A simple utility to add security headers to the nextjs response. Here is an example
+
+```ts
+import {
+  CSPWhitelist,
+  securityHeaders,
+} from '@vinayakhegde/smart-kit-nextjs/node/security-headers';
+const cspWhitelist: CSPWhitelist = {
+  images: ['images.com'],
+  scripts: ['scripts.com'],
+  iframe: ['iframe.com'],
+  connect: ['connect.com'],
+  styles: ['styles.com'],
+  fonts: ['fonts.com'],
+  reports: ['reports.com'],
+  media: ['media.com'],
+};
+const headers = securityHeaders(cspWhitelist);
+// next.config.js
+const nextConfig = {
+  // other next config,
+  headers,
+};
+```
