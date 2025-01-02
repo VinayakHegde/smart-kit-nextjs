@@ -26,6 +26,11 @@
       "types": "./dist/cache/cache-provider/index.d.ts",
       "require": "./dist/cache/cache-provider/index.cjs.js",
       "import": "./dist/cache/cache-provider/index.es.js"
+    },
+    "./node/security-headers": {
+      "types": "./dist/security-headers/index.d.ts",
+      "require": "./dist/security-headers/index.cjs.js",
+      "import": "./dist/security-headers/index.es.js"
     }
   },
   "scripts": {
