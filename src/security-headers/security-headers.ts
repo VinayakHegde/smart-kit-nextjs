@@ -1,31 +1,54 @@
 export type CSPWhitelist = {
-  images: string[];
-  scripts: string[];
-  iframe: string[];
-  connect: string[];
-  styles: string[];
-  fonts: string[];
-  reports: string[];
-  media: string[];
+  images?: string[];
+  scripts?: string[];
+  iframe?: string[];
+  connect?: string[];
+  styles?: string[];
+  fonts?: string[];
+  reports?: string[];
+  media?: string[];
 };
 
-function generateCSPHeader(csp: CSPWhitelist): string {
+type CSPHeader = {
+  key: string;
+  value: string;
+};
+
+type Option = {
+  allowUnsafeEval?: boolean;
+  allowUnsafeInline?: boolean;
+  stsMaxAge?: number;
+};
+
+function generateCSPHeader(
+  csp: CSPWhitelist,
+  allowUnsafeEval = false,
+  allowUnsafeInline = false,
+): string {
   return [
     `default-src 'self';`,
-    `script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: ${csp.scripts.join(' ')};`,
-    `style-src 'self' 'unsafe-inline' blob: data: ${csp.styles.join(' ')};`,
-    `img-src 'self' blob: data: ${csp.images.join(' ')};`,
-    `font-src 'self' blob: data: ${csp.fonts.join(' ')};`,
+    `script-src 'self' ${allowUnsafeEval ? 'unsafe-eval' : ''} ${allowUnsafeInline ? 'unsafe-inline' : ''} blob: ${(csp.scripts ?? []).join(' ')};`,
+    `style-src 'self' ${allowUnsafeInline ? 'unsafe-inline' : ''} blob: data: ${(csp.styles ?? []).join(' ')};`,
+    `img-src 'self' blob: data: ${(csp.images ?? []).join(' ')};`,
+    `font-src 'self' blob: data: ${(csp.fonts ?? []).join(' ')};`,
     `object-src 'none';`,
     `base-uri 'self';`,
     `form-action 'self';`,
     `frame-ancestors 'self';`,
-    `frame-src 'self' ${csp.iframe.join(' ')};`,
-    `connect-src 'self' ${csp.connect.join(' ')};`,
-    `media-src 'self' ${csp.media.join(' ')};`,
-    `report-uri ${csp.reports.join(' ')};`,
+    `frame-src 'self' ${(csp.iframe ?? []).join(' ')};`,
+    `connect-src 'self' ${(csp.connect ?? []).join(' ')};`,
+    `media-src 'self' ${(csp.media ?? []).join(' ')};`,
+    `report-uri ${(csp.reports ?? []).join(' ')};`,
     `report-to default;`,
   ].join(' ');
+}
+
+function validateWhitelist(whitelist: CSPWhitelist) {
+  Object.entries(whitelist).forEach(([key, arr]) => {
+    if (arr.length > 100) {
+      throw new Error(`${key} has too many entries (max 100)`);
+    }
+  });
 }
 
 /**
@@ -57,12 +80,22 @@ function generateCSPHeader(csp: CSPWhitelist): string {
  * };
  */
 export const securityHeaders = (
-  cspWhitelist: CSPWhitelist,
-  stsMaxAge = 31536000,
+  cspWhitelist: CSPWhitelist = {},
+  options?: Option,
 ) => {
-  const cspHeader = generateCSPHeader(cspWhitelist);
+  validateWhitelist(cspWhitelist);
+  const { allowUnsafeEval, allowUnsafeInline, stsMaxAge } = options ?? {
+    allowUnsafeEval: false,
+    allowUnsafeInline: false,
+    stsMaxAge: 31536000,
+  };
+  const cspHeader = generateCSPHeader(
+    cspWhitelist,
+    allowUnsafeEval,
+    allowUnsafeInline,
+  );
   return async (): Promise<
-    Array<{ source: string; headers: Array<{ key: string; value: string }> }>
+    Array<{ source: string; headers: Array<CSPHeader> }>
   > => [
     {
       source: '/(.*)',
