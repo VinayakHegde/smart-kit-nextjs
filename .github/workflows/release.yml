@@ -10,6 +10,7 @@ on:
 env:
   CI: true
   PNPM_CACHE_FOLDER: .pnpm-store
+  HUSKY: 0
 
 jobs:
   release:
@@ -42,7 +43,7 @@ jobs:
         uses: changesets/action@v1
         with:
           version: pnpm ci:version
-          commit: 'chore: update versions'
+          commit: 'chore(deps): update versions --no-verify'
           title: 'chore: update versions'
           publish: pnpm ci:release
         env:
@@ -51,8 +52,6 @@ jobs:
 
       - name: Commit and Tag
         id: commit_and_tag
-        env:
-          HUSKY: 0
         run: |
           if [[ -n "$(git status --porcelain)" ]]; then
             git config user.name "github-actions[bot]"
