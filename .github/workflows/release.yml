@@ -44,7 +44,7 @@ jobs:
           version: pnpm ci:version
           commit: 'chore: update versions'
           title: 'chore: update versions'
-          publish: pnpm publish -r
+          publish: pnpm ci:release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

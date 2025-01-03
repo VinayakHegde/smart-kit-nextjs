@@ -39,7 +39,8 @@
     "lint": "eslint .",
     "format": "prettier --write --ignore-unknown .",
     "prepare": "husky",
-    "release": "npx changeset publish"
+    "ci:release": "npx changeset publish",
+    "ci:version": "npx changeset version"
   },
   "keywords": [],
   "author": "",
