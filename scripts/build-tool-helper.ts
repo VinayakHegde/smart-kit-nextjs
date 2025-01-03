@@ -1,27 +1,31 @@
 import { resolve } from 'path';
 import packageJson from '../package.json';
 
-export const alias = [
-  {
-    find: '@',
-    replacement: resolve(__dirname, './src').replace(/[/\\]scripts/, ''),
-  },
-];
+export const alias = {
+  '@': resolve(__dirname, './src').replace(/[/\\]scripts/, ''),
+  events: 'rollup-plugin-node-polyfills/polyfills/events',
+  path: 'rollup-plugin-node-polyfills/polyfills/path',
+};
 
-export const entry = Object.keys(packageJson.exports)
-  .map((key) => key.replace('.', 'src') + '/index.ts')
-  .reduce((acc, path) => {
-    const name = path
-      .replace(/src[/\\]/, '')
-      .replace(/[/\\]index.ts/, '')
-      .replace(/[/\\]scripts/, '');
+function convertMapping(input: Record<string, { types: string }>) {
+  const output = {};
 
-    acc[name === 'index.ts' ? 'main' : name] = resolve(__dirname, path).replace(
-      /[/\\]scripts/,
-      '',
-    );
-    return acc;
-  }, {});
+  for (const [key, value] of Object.entries(input)) {
+    const formattedKey = key.replace('./', '');
+    const srcPath = value.types
+      .replace('./dist/', 'src/')
+      .replace('.d.ts', '.ts');
+
+    output[srcPath === 'src/index.ts' ? 'main' : formattedKey] = resolve(
+      __dirname,
+      srcPath,
+    ).replace(/[/\\]scripts/, '');
+  }
+
+  console.log(output);
+  return output;
+}
+export const entry = convertMapping(packageJson.exports);
 
 export const fileName = (format, name) =>
   `${name === 'main' ? '' : name + '/'}index.${format}.js`;
