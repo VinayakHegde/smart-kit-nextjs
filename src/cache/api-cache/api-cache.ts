@@ -19,7 +19,7 @@ import {
  *  { interval: 60, cacheKeys: ['example', 'users'], tags: ['users'] }
  * );
  *
- * // Option: 2
+ * // Option: 2 - works only when 'experimental.dynamicIO' is enabled in next.config.js
  * const data = await apiCache.execute(
  *   async () => {
  *    const response = await fetch('https://api.example.com/users');
@@ -29,6 +29,14 @@ import {
  *   // or { cacheLife: { stale: 300, revalidate: 60, expire: 3600 } }
  *   // or { cacheLife: 'custom-defined-in-next.config' }
  * );
+ *
+ * // next.config.js
+ * const nextConfig = {
+ *   // other next config,
+ *   experimental: {
+ *     dynamicIO: true,
+ *   },
+ * };
  *
  * apiCache.revalidateByTag(['users']);
  * ```

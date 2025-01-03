@@ -29,6 +29,7 @@ export type CacheConfig =
  * const cache = CacheProvider.create({
  *   timeToLive: 1000,
  * });
+ *```
  */
 export class CacheProvider {
   static create(config: CacheConfig): Provider {
