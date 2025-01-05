@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - 'src/**'
+    paths:
+      - 'src/**'
 
 env:
   CI: true
@@ -49,18 +49,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-
-      - name: Commit and Tag
-        id: commit_and_tag
-        run: |
-          if [[ -n "$(git status --porcelain)" ]]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            VERSION=$(node -p "require('./package.json').version")
-            git add .
-            git commit -m "chore: release version $VERSION [skip ci]"
-            git tag v$VERSION
-            git push origin main --tags
-          else
-            echo "No changes to commit"
-          fi

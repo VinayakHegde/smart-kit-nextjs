@@ -34,9 +34,5 @@ export const libraryFormats = ['es', 'cjs'];
 
 export const dtsOptions = {
   copyDtsFiles: true,
-  exclude: [
-    '**/*.test.*',
-    '**/*.spec.*',
-    '**/{jest-helper,utils,request,endpoints}/*',
-  ],
+  exclude: ['**/*.test.*', '**/*.spec.*'],
 };

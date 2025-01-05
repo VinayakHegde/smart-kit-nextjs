@@ -4,7 +4,17 @@
 
 This is a package with useful utils for Next.js projects. Here are some of the features:
 
-- **api-cache**: A simple cache system that wrapes next.js cache. (`unstable_cache` and `revalidateTag` and `'use cache'` directive). Here is an example:
+- [api-cache](#api-cache)
+- [cache-provider](#cache-provider)
+- [security-headres](#security-headres)
+
+---
+
+### api-cache
+
+**A simple cache system that wrapes next.js cache. (`unstable_cache` and `revalidateTag` and `'use cache'` directive).**
+
+Here is an example:
 
 ```ts
 import { apiCache } from '@vinayakhegde/smart-kit-nextjs/cache';
@@ -20,7 +30,13 @@ const data = await apiCache.execute(
 apiCache.revalidateByTag(['users']);
 ```
 
-- **cache-provider**: A serverside cache provider that wraps `FileCache` and `MemoryCache` and provides a simple interface to use them. Here is an example:
+---
+
+### cache-provider
+
+**A serverside cache provider that wraps `FileCache` and `MemoryCache` and provides a simple interface to use them.**
+
+Here is an example:
 
 ```ts
 import { CacheProvider } from '@vinayakhegde/smart-kit-nextjs/node/cache-provider';
@@ -45,7 +61,13 @@ cashProvider.clear();
 
 Note: If client side caching is required, use `MemoryCache` instead.
 
-- **security-headres**: A simple utility to add security headers to the nextjs response. Here is an example
+---
+
+### security-headres
+
+**A simple utility to add security headers to the nextjs response.**
+
+Here is an example
 
 ```ts
 import {
@@ -69,3 +91,5 @@ const nextConfig = {
   headers,
 };
 ```
+
+---
