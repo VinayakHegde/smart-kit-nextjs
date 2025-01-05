@@ -31,6 +31,11 @@
       "types": "./dist/security-headers/index.d.ts",
       "require": "./dist/security-headers/index.cjs.js",
       "import": "./dist/security-headers/index.es.js"
+    },
+    "./validate-env-vars": {
+      "types": "./dist/validate-env-vars/index.d.ts",
+      "require": "./dist/validate-env-vars/index.cjs.js",
+      "import": "./dist/validate-env-vars/index.es.js"
     }
   },
   "scripts": {
@@ -50,6 +55,7 @@
     "@commitlint/config-conventional": "^19.6.0",
     "@commitlint/types": "^19.5.0",
     "@types/clone": "^2.1.4",
+    "@types/node": "^22.10.5",
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
     "@vitest/coverage-c8": "^0.33.0",

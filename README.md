@@ -7,6 +7,7 @@ This is a package with useful utils for Next.js projects. Here are some of the f
 - [api-cache](#api-cache)
 - [cache-provider](#cache-provider)
 - [security-headres](#security-headres)
+- [validate-env-vars](#validate-env-vars)
 
 ---
 
@@ -89,6 +90,57 @@ const headers = securityHeaders(cspWhitelist);
 const nextConfig = {
   // other next config,
   headers,
+};
+```
+
+---
+
+### validate-env-vars
+
+**A simple utility to validate the required environment variables before app loads.**
+
+Here is an example
+
+```ts
+// next.config.js
+import { validateEnvVars } from '@vinayakhegde/smart-kit-nextjs/node/validate-env-vars';
+// 0r
+// const { validateEnvVars } = require('@vinayakhegde/smart-kit-nextjs/node/validate-env-vars');
+
+try {
+  validateEnvVars(['API_KEY', 'API_SECRET']);
+} catch (error) {
+  console.error(error);
+  process.exit(1);
+}
+
+module.exports = {
+  // other next config,
+};
+```
+
+If you have an rc file, you can use it like this:
+
+```ts
+// next.config.js
+import {
+  validateEnvVars,
+  loadEnvVarsFromRcFile,
+} from '@vinayakhegde/smart-kit-nextjs/node/validate-env-vars';
+// 0r
+// const { validateEnvVars, loadEnvVarsFromRcFile } = require('@vinayakhegde/smart-kit-nextjs/node/validate-env-vars');
+async function entry() {
+  validateEnvVars(await loadEnvVarsFromRcFile());
+}
+try {
+  entry();
+} catch (error) {
+  console.error(error);
+  process.exit(1);
+}
+
+module.exports = {
+  // other next config,
 };
 ```
 
