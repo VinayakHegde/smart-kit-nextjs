@@ -31,6 +31,11 @@
       "types": "./dist/security-headers/index.d.ts",
       "require": "./dist/security-headers/index.cjs.js",
       "import": "./dist/security-headers/index.es.js"
+    },
+    "./validate-env-vars": {
+      "types": "./dist/validate-env-vars/index.d.ts",
+      "require": "./dist/validate-env-vars/index.cjs.js",
+      "import": "./dist/validate-env-vars/index.es.js"
     }
   },
   "scripts": {
