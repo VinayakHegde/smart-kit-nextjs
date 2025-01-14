@@ -21,7 +21,8 @@ Here is an example:
 import { apiCache } from '@vinayakhegde/smart-kit-nextjs/cache';
 
 const data = await apiCache.execute(
-  async () => {
+  async (...args) => {
+    console.log('fetching data', args);
     const response = await fetch('https://api.example.com/users');
     return await response.json();
   },
