@@ -19,6 +19,10 @@ declare namespace ICache {
     type CacheLifeOption = {
       cacheLife: CacheLife;
     };
+
+    type CacheTagOption = {
+      cacheTag: CacheKey;
+    };
     type Option =
       | {
           /**
@@ -31,14 +35,18 @@ declare namespace ICache {
           validFor: number | false;
           tags?: string[];
         }
-      | CacheLifeOption;
+      | CacheLifeOption
+      | CacheTagOption;
     type ApiCache = {
       /**
        * This function allows you to cache the result of a function call for a specific amount of time.
        * @param func that returns a promise
        * @param options configuration object
        */
-      execute<T>(func: () => Promise<T>, options: Option): Promise<T>;
+      execute<T>(
+        func: (...params: Params[]) => Promise<T>,
+        options: Option,
+      ): Promise<T>;
       /**
        * This function allows you to purge cached data on-demand for a specific cache tag(s).
        * @param tags
@@ -48,6 +56,7 @@ declare namespace ICache {
   }
 
   type CacheValue = any;
+  type Params = any;
   type CacheKey = string;
   namespace IMemoryCache {
     export type ValueOption = {
