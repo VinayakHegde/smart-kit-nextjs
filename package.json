@@ -1,6 +1,6 @@
 {
   "name": "@vinayakhegde/smart-kit-nextjs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "This package can help developers streamline their Next.js development workflow by providing reusable utilities, pre-built configurations, and powerful tools tailored to common Next.js use cases.",
   "repository": {
     "type": "git",

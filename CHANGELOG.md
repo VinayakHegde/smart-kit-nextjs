@@ -1,5 +1,11 @@
 # @vinayakhegde/smart-kit-nextjs
 
+## 0.2.0
+
+### Minor Changes
+
+- f8bc09d: Added cacheTag params method
+
 ## 0.1.0
 
 ### Minor Changes
