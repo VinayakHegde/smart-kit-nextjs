@@ -1,5 +1,11 @@
 # @vinayakhegde/smart-kit-nextjs
 
+## 0.2.1
+
+### Patch Changes
+
+- 7c09649: ConfigStore for maintaining aopplication configs
+
 ## 0.2.0
 
 ### Minor Changes
