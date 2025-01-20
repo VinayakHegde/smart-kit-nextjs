@@ -8,6 +8,7 @@ This is a package with useful utils for Next.js projects. Here are some of the f
 - [cache-provider](#cache-provider)
 - [security-headres](#security-headres)
 - [validate-env-vars](#validate-env-vars)
+- [config-store](#config-store)
 
 ---
 
@@ -146,3 +147,42 @@ module.exports = {
 ```
 
 ---
+
+### config-store
+
+**A simple utility to store and retrieve configuration data.**
+
+Here is an example
+
+```ts
+import { ConfigStore } from '@vinayakhegde/smart-kit-nextjs/config-store';
+import { z } from 'zod';
+
+export const awesomeSchema = z.object({
+  apiBasePath: z.string(),
+  clientId: z.string(),
+  xFactor: z.object({
+    x: z.boolean(),
+    y: z.string(),
+    z: z.tuple([z.number(), z.number()]),
+  }),
+});
+
+export const superSchema = z.object({
+  serverSecret: z.string(),
+  databaseUrl: z.string(),
+});
+
+ConfigStore.add(awesomeSchema, {
+  apiBasePath: '/api',
+  clientId: '1234',
+  xFactor: {
+    x: true,
+    y: 'y',
+    z: [1, 2],
+  },
+}).add(superSchema, {
+  serverSecret: 'super-secret',
+  databaseUrl: 'postgres://localhost/db',
+});
+```
