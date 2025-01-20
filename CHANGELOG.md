@@ -1,5 +1,11 @@
 # @vinayakhegde/smart-kit-nextjs
 
+## 0.2.2
+
+### Patch Changes
+
+- 03bcf24: Documentation for config-store
+
 ## 0.2.1
 
 ### Patch Changes
