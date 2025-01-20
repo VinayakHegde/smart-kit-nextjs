@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import ConfigStore from './config-store';
+import { ConfigStore } from './config-store';
 import { awesomeSchema, superSchema } from './__mock__/init-config-store';
 
 test('ConfigStore.get - should return the configuration of the specified schema type', () => {

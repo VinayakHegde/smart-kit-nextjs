@@ -1,4 +1,4 @@
-import ConfigStore from '../config-store';
+import { ConfigStore } from '../config-store';
 import { z } from 'zod';
 
 export const awesomeSchema = z.object({
@@ -16,7 +16,7 @@ export const superSchema = z.object({
   databaseUrl: z.string(),
 });
 
-ConfigStore.add<typeof awesomeSchema>(awesomeSchema, {
+ConfigStore.add(awesomeSchema, {
   apiBasePath: '/api',
   clientId: '1234',
   xFactor: {

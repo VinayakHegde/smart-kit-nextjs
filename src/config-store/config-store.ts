@@ -4,7 +4,39 @@ import { ZodObject, infer as Infer } from 'zod';
 type Any = any;
 type ZodSchema = ZodObject<Any>;
 
-class ConfigStore {
+/**
+ * A simple configuration store that allows adding and retrieving configuration
+ * based on a provided schema.
+ * The configuration is read-only.
+ * The configuration is validated against the provided schema.
+ * The configuration is added only once for a given schema.
+ * The configuration can be replaced if the `bReplaceIfExist` flag is set to `true`.
+ * @example
+ * ```ts
+ * import { z } from 'zod';
+ * import { ConfigStore } from '@vinayakhegde/smart-kit-nextjs/config-store';
+ *
+ * const awesomeSchema = z.object({
+ *  apiBasePath: z.string(),
+ *  clientId: z.string(),
+ *  xFactor: z.object({
+ *   x: z.boolean(),
+ *   y: z.string(),
+ *   z: z.tuple([z.number(), z.number()]),
+ *  }),
+ * });
+ *
+ * ConfigStore.add(awesomeSchema, {
+ *   apiBasePath: '/api',
+ *   clientId: '1234',
+ *   xFactor: {
+ *     x: true,
+ *     y: 'y',
+ *     z: [1, 2],
+ *   },
+ * });
+ */
+export class ConfigStore {
   private static configMap: Map<ZodSchema, Readonly<Any>> = new Map();
 
   /**
@@ -45,5 +77,3 @@ class ConfigStore {
     return config as Readonly<Infer<Schema>>;
   }
 }
-
-export default ConfigStore;
